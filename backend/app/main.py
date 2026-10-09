@@ -1,8 +1,9 @@
 import os
 import datetime
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
@@ -87,3 +88,58 @@ def reset_demo_data(db: Session = Depends(get_db)):
 # Auto seed on start
 with next(get_db()) as db_session:
     seed_database(db_session)
+
+# -------------------------------------------------------------------------
+# Full-Stack Deployment: Frontend SPA & Static Asset Serving
+# -------------------------------------------------------------------------
+current_dir = os.path.dirname(os.path.abspath(__file__))  # backend/app
+backend_dir = os.path.dirname(current_dir)                 # backend
+root_dir = os.path.dirname(backend_dir)                    # repo root
+
+frontend_dist_candidates = [
+    os.getenv("FRONTEND_DIST"),
+    os.path.join(root_dir, "frontend", "dist"),
+    os.path.join(backend_dir, "dist"),
+    os.path.join(backend_dir, "static"),
+    "/app/frontend/dist",
+]
+
+frontend_dist = next((p for p in frontend_dist_candidates if p and os.path.isdir(p)), None)
+
+if frontend_dist:
+    assets_dir = os.path.join(frontend_dist, "assets")
+    if os.path.isdir(assets_dir):
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="frontend-assets")
+
+    @app.get("/")
+    def serve_frontend_root():
+        index_file = os.path.join(frontend_dist, "index.html")
+        if os.path.isfile(index_file):
+            return FileResponse(index_file)
+        return {"status": "ok", "service": "AquaSmart AI Core Engine"}
+
+    @app.get("/{full_path:path}")
+    def serve_frontend_spa(full_path: str):
+        # Prevent catching API, docs, and OpenAPI endpoints
+        if full_path.startswith("api/") or full_path == "api" or full_path in ("docs", "redoc", "openapi.json"):
+            raise HTTPException(status_code=404, detail="Not Found")
+
+        target_file = os.path.join(frontend_dist, full_path)
+        if full_path and os.path.isfile(target_file):
+            return FileResponse(target_file)
+
+        index_file = os.path.join(frontend_dist, "index.html")
+        if os.path.isfile(index_file):
+            return FileResponse(index_file)
+        raise HTTPException(status_code=404, detail="Not Found")
+else:
+    @app.get("/")
+    def serve_api_root():
+        return {
+            "status": "online",
+            "service": settings.APP_NAME,
+            "message": "AquaSmart AI backend active. Build frontend to enable web UI.",
+            "docs": "/docs",
+            "health": "/api/health"
+        }
+

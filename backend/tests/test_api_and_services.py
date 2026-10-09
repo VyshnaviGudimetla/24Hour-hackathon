@@ -405,3 +405,25 @@ def test_rep_07_and_08_csv_export():
     assert "Record ID" in csv_text
     assert "Total Biomass (kg)" in csv_text
     assert "Daily Feed Cost (INR)" in csv_text
+
+
+# =========================================================================
+# H. Full-Stack Unified Deployment Tests
+# =========================================================================
+
+def test_fullstack_frontend_serving():
+    """Verify root serves index.html, SPA routing works, and API 404s are not caught."""
+    # Root URL
+    res = client.get("/")
+    assert res.status_code == 200
+    assert "<div id=\"root\"></div>" in res.text
+
+    # SPA route
+    res_spa = client.get("/water-quality")
+    assert res_spa.status_code == 200
+    assert "<div id=\"root\"></div>" in res_spa.text
+
+    # Unknown API route returns 404 (not HTML)
+    res_api = client.get("/api/non-existent-endpoint-test")
+    assert res_api.status_code == 404
+

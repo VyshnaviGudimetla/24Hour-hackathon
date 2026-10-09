@@ -1,33 +1,25 @@
 version: '3.8'
 
 services:
-  backend:
+  # AquaSmart AI — Unified Full-Stack Application (Frontend + FastAPI Backend)
+  app:
     build:
-      context: ./backend
+      context: .
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=sqlite:///./aquasmart.db
+      - DATABASE_URL=sqlite:///./backend/aquasmart.db
       - SECRET_KEY=aquasmart-production-secret-key-2026
       - DEMO_MODE_DEFAULT=true
       - STALE_DATA_TIMEOUT_MINUTES=15
+      - PORT=8000
     volumes:
-      - ./backend/aquasmart.db:/app/aquasmart.db
-      - ./backend/uploads:/app/uploads
+      - ./backend/aquasmart.db:/app/backend/aquasmart.db
+      - ./backend/uploads:/app/backend/uploads
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
       interval: 30s
       timeout: 10s
       retries: 3
-
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - "80:80"
-    depends_on:
-      - backend
-    restart: unless-stopped

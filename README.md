@@ -66,13 +66,32 @@ npm run dev -- --host 127.0.0.1 --port 5173
 
 ---
 
-## 🐳 Production Deployment with Docker
+## 🚀 Unified Full-Stack Deployment (Frontend + Backend Together)
 
+The frontend and backend are now completely clubbed together into a single unified deployable service! FastAPI serves both the production React SPA and all `/api/...` endpoints from the same origin and port, eliminating CORS issues and proxy overhead.
+
+### Option 1: 1-Command Local Unified Run
+```bash
+# 1. Build frontend & start fullstack
+npm run build
+python run.py
+```
+Or simply double click **`start_fullstack.bat`** on Windows.
+- Full Web Application: [http://localhost:8000](http://localhost:8000)
+- Swagger API Documentation: [http://localhost:8000/docs](http://localhost:8000/docs)
+- System Health: [http://localhost:8000/api/health](http://localhost:8000/api/health)
+
+### Option 2: Production Cloud Deployment (Render / Railway / Heroku / Fly.io)
+Deploy this repository as a single Web Service:
+- **Build Command**: `npm run build && pip install -r backend/requirements.txt`
+- **Start Command**: `python run.py` (or `web: python run.py` via included `Procfile`)
+- Pre-configured `render.yaml` and `Procfile` are included for zero-config deployments.
+
+### Option 3: Docker & Docker Compose
 ```bash
 docker compose up -d --build
 ```
-- Frontend: `http://localhost` (Port 80)
-- Backend: `http://localhost:8000` (Port 8000)
+Builds the unified multi-stage Docker image and exposes the complete application on `http://localhost:8000`.
 
 ---
 

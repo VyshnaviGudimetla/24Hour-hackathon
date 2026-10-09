@@ -60,7 +60,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="hidden xl:flex items-center gap-2 ml-4">
           <div className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#050d25] border border-emerald-500/20 text-emerald-400 font-mono text-[11px]">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span className="font-semibold">FastAPI Core: Connected 8000</span>
+            <span className="font-semibold">FastAPI Core: Connected</span>
           </div>
 
           <button

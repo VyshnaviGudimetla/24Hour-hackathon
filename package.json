@@ -1,0 +1,27 @@
+{
+  "name": "aquasmart-ai-fullstack",
+  "version": "1.0.0",
+  "description": "AquaSmart AI — Precision Aquaculture Feeding & Water Telemetry Optimization Platform",
+  "private": true,
+  "scripts": {
+    "install:frontend": "npm --prefix frontend install",
+    "build:frontend": "npm --prefix frontend run build",
+    "build": "npm run build:frontend",
+    "start": "python run.py",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "dev:backend": "python -m uvicorn app.main:app --app-dir backend --reload --port 8000",
+    "dev": "npm run start"
+  },
+  "keywords": [
+    "aquaculture",
+    "iot",
+    "ai",
+    "fastapi",
+    "react",
+    "vite",
+    "tail-wagging",
+    "computer-vision"
+  ],
+  "author": "AquaSmart AI Team",
+  "license": "MIT"
+}

@@ -59,7 +59,7 @@ export function App() {
       setGlobalError(null);
     } catch (err: any) {
       console.error('Failed to load initial data:', err);
-      setGlobalError('Backend connection failed. Please ensure FastAPI server is running on port 8000.');
+      setGlobalError('Backend connection failed. Please ensure the backend server is running and reachable.');
     }
   };
 

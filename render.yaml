@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: aquasmart-ai
+    runtime: python
+    buildCommand: npm --prefix frontend install && npm --prefix frontend run build && pip install -r backend/requirements.txt
+    startCommand: python run.py
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEMO_MODE_DEFAULT
+        value: "true"
+      - key: STALE_DATA_TIMEOUT_MINUTES
+        value: "15"
