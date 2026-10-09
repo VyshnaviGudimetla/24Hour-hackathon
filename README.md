@@ -87,7 +87,15 @@ Deploy this repository as a single Web Service:
 - **Start Command**: `python run.py` (or `web: python run.py` via included `Procfile`)
 - Pre-configured `render.yaml` and `Procfile` are included for zero-config deployments.
 
-### Option 3: Docker & Docker Compose
+### Option 3: Deploy to Vercel (Frontend CDN + Serverless Python API)
+The repository is pre-configured for **1-click Vercel Deployment** with [`vercel.json`](file:///c:/Users/arshi/Desktop/24Hour-hackathon/vercel.json) and [`api/index.py`](file:///c:/Users/arshi/Desktop/24Hour-hackathon/api/index.py):
+1. Import this repository in [Vercel](https://vercel.com/new).
+2. Leave Root Directory as `./` (default).
+3. Click **Deploy**.
+- **Frontend SPA**: Hosted on Vercel Global Edge Network with instant CDN caching.
+- **Backend API**: Hosted as a Vercel Serverless Python function (`@vercel/python`) routing all `/api/*` endpoints.
+
+### Option 4: Docker & Docker Compose
 ```bash
 docker compose up -d --build
 ```

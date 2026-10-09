@@ -49,6 +49,16 @@ app.include_router(reports_router, prefix=settings.API_V1_STR)
 app.include_router(alerts_router, prefix=settings.API_V1_STR)
 
 # Health & Readiness checks (Phase 10 - Monitoring)
+@app.get("/api")
+def api_root_info():
+    return {
+        "status": "healthy",
+        "service": "AquaSmart AI Core Engine",
+        "version": "1.0.0",
+        "docs": "/docs",
+        "health": "/api/health"
+    }
+
 @app.get("/api/health")
 def health_check():
     return {
