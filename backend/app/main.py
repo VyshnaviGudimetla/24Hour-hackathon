@@ -108,9 +108,9 @@ root_dir = os.path.dirname(backend_dir)                    # repo root
 
 frontend_dist_candidates = [
     os.getenv("FRONTEND_DIST"),
+    os.path.join(backend_dir, "static"),
     os.path.join(root_dir, "frontend", "dist"),
     os.path.join(backend_dir, "dist"),
-    os.path.join(backend_dir, "static"),
     "/app/frontend/dist",
 ]
 

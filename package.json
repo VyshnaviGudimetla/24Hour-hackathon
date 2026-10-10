@@ -9,7 +9,8 @@
   "scripts": {
     "install:frontend": "npm --prefix frontend install",
     "build:frontend": "npm --prefix frontend run build",
-    "build": "npm run build:frontend",
+    "copy:static": "node -e \"const fs=require('fs'); fs.mkdirSync('backend/static', {recursive: true}); fs.cpSync('frontend/dist', 'backend/static', {recursive: true});\"",
+    "build": "npm run build:frontend && npm run copy:static",
     "start": "python run.py",
     "dev:frontend": "npm --prefix frontend run dev",
     "dev:backend": "python -m uvicorn app.main:app --app-dir backend --reload --port 8000",
