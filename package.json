@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "AquaSmart AI — Precision Aquaculture Feeding & Water Telemetry Optimization Platform",
   "private": true,
+  "workspaces": [
+    "frontend"
+  ],
   "scripts": {
     "install:frontend": "npm --prefix frontend install",
     "build:frontend": "npm --prefix frontend run build",
